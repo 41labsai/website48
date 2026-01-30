@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orchard Family Clinic — Your Neighbourhood GP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: #1e293b; background: #fff; }
+
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; }
+    .nav-logo { font-size: 1.3rem; font-weight: 700; color: #0d9488; }
+    .nav-logo span { color: #1e293b; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: #475569; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #0d9488; }
+    .nav-cta { background: #0d9488; color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+
+    .hero { padding: 140px 60px 80px; background: linear-gradient(135deg, #f0fdfa, #ecfdf5); display: flex; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center; }
+    .hero-tag { display: inline-block; background: rgba(13,148,136,0.1); color: #0d9488; font-size: 0.75rem; font-weight: 600; padding: 6px 14px; border-radius: 50px; margin-bottom: 16px; }
+    .hero h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 16px; color: #0f172a; }
+    .hero h1 span { color: #0d9488; }
+    .hero p { color: #64748b; font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; }
+    .hero-buttons { display: flex; gap: 12px; }
+    .btn-teal { background: #0d9488; color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .btn-light { background: #fff; color: #0d9488; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
+    .hero-img { width: 100%; height: 400px; border-radius: 16px; background: url('https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80') center/cover; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+
+    .stats-bar { padding: 40px 60px; display: flex; justify-content: center; gap: 60px; border-bottom: 1px solid #e2e8f0; }
+    .stat { text-align: center; }
+    .stat-number { font-size: 2rem; font-weight: 700; color: #0d9488; }
+    .stat-label { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    .section { padding: 80px 60px; }
+    .section-header { text-align: center; margin-bottom: 50px; }
+    .section-tag { color: #0d9488; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .section-header h2 { font-size: 2rem; margin-top: 10px; color: #0f172a; }
+
+    .services { background: #f8fafc; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+    .service-card { background: #fff; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; transition: box-shadow 0.2s; }
+    .service-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .service-icon { width: 48px; height: 48px; background: #f0fdfa; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; }
+    .service-card h3 { font-size: 1.05rem; margin-bottom: 8px; color: #0f172a; }
+    .service-card p { color: #64748b; font-size: 0.85rem; line-height: 1.6; }
+
+    .about { background: #fff; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center; }
+    .about-img { width: 100%; height: 380px; border-radius: 12px; background: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80') center/cover; }
+    .about-text h3 { font-size: 1.6rem; margin-bottom: 16px; }
+    .about-text p { color: #64748b; line-height: 1.8; margin-bottom: 14px; font-size: 0.92rem; }
+
+    .hours { background: #f8fafc; }
+    .hours-card { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 40px; border: 1px solid #e2e8f0; }
+    .hours-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { font-weight: 500; color: #0f172a; }
+    .hours-time { color: #64748b; }
+
+    .contact { background: #0f172a; text-align: center; }
+    .contact .section-header h2 { color: #fff; }
+    .contact p { color: rgba(255,255,255,0.5); margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .contact-details { display: flex; gap: 40px; justify-content: center; margin-top: 24px; }
+    .contact-details span { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+
+    .footer { background: #0a0f1a; padding: 24px 60px; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">Orchard <span>Family Clinic</span></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Book Appointment</a>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag">Your Neighbourhood GP</div>
+        <h1>Quality Healthcare for <span>Your Family</span></h1>
+        <p>Trusted by over 2,000 families in the Orchard area. Walk-ins welcome, appointments preferred. CHAS & MediSave accepted.</p>
+        <div class="hero-buttons">
+          <a href="#contact" class="btn-teal">Book Appointment</a>
+          <a href="#services" class="btn-light">Our Services</a>
+        </div>
+      </div>
+      <div class="hero-img"></div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-number">2,000+</div><div class="stat-label">Patients</div></div>
+    <div class="stat"><div class="stat-number">15</div><div class="stat-label">Years in Practice</div></div>
+    <div class="stat"><div class="stat-number">4.9★</div><div class="stat-label">Google Rating</div></div>
+    <div class="stat"><div class="stat-number">CHAS</div><div class="stat-label">Accredited</div></div>
+  </div>
+
+  <section class="section services" id="services">
+    <div class="section-header">
+      <span class="section-tag">Our Services</span>
+      <h2>Comprehensive Care Under One Roof</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🩺</div>
+        <h3>General Consultation</h3>
+        <p>Comprehensive health assessments, chronic disease management, and acute illness treatment for all ages.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💉</div>
+        <h3>Health Screenings</h3>
+        <p>Full blood work, cholesterol checks, diabetes screening, and corporate health screening packages.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🫁</div>
+        <h3>Vaccinations</h3>
+        <p>Flu shots, travel vaccinations, HPV, and childhood immunisation schedules. MOH-approved vaccines.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">👶</div>
+        <h3>Paediatric Care</h3>
+        <p>Developmental milestones, childhood illnesses, and school health assessments for children of all ages.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏥</div>
+        <h3>Minor Procedures</h3>
+        <p>Wound care, stitching, mole removal, ear syringing, and other in-clinic procedures.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📋</div>
+        <h3>Medical Certificates</h3>
+        <p>MC issuance, pre-employment checkups, insurance medicals, and driving license assessments.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about" id="about">
+    <div class="about-grid">
+      <div class="about-img"></div>
+      <div class="about-text">
+        <span class="section-tag">About Us</span>
+        <h3>Dr. Rachel Tan & Team</h3>
+        <p>Dr. Rachel Tan graduated from NUS Medicine in 2009 and has been serving the Orchard community for over 15 years. She believes in building long-term relationships with her patients — treating the person, not just the symptoms.</p>
+        <p>Our clinic is equipped with modern diagnostic tools and staffed by a friendly, multilingual team (English, Mandarin, Malay). We accept CHAS, MediSave, and all major insurance panels.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hours" id="hours">
+    <div class="section-header">
+      <span class="section-tag">Clinic Hours</span>
+      <h2>When to Visit Us</h2>
+    </div>
+    <div class="hours-card">
+      <div class="hours-row"><span class="hours-day">Monday – Friday</span><span class="hours-time">8:30 AM – 1:00 PM, 2:00 PM – 5:30 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">8:30 AM – 12:30 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Sunday & PH</span><span class="hours-time">Closed</span></div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="section-header">
+      <span class="section-tag">Visit Us</span>
+      <h2>Book an Appointment</h2>
+    </div>
+    <p>Walk-ins are welcome. For shorter wait times, book ahead via WhatsApp or call us directly.</p>
+    <a href="#" class="btn-teal">WhatsApp Us</a>
+    <div class="contact-details">
+      <span>📞 6734 5678</span>
+      <span>📍 391 Orchard Rd, #04-12</span>
+      <span>📧 hello@orchardfamilyclinic.sg</span>
+    </div>
+  </section>
+
+  <footer class="footer">© 2025 Orchard Family Clinic. All rights reserved.</footer>
+
+</body>
+</html>
