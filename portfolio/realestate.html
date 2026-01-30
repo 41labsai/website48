@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarah Mitchell Realty — Luxury Homes in Miami</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; color: #1a1a2e; background: #fff; }
+
+    /* Nav */
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9rem; font-weight: 400; letter-spacing: 0.5px; }
+    .nav-cta { background: #c8a45e; color: #fff; padding: 10px 24px; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    /* Hero */
+    .hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; background: linear-gradient(135deg, rgba(15,15,30,0.7), rgba(15,15,30,0.4)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400&q=80') center/cover no-repeat; }
+    .hero-content { padding: 0 60px; max-width: 650px; }
+    .hero-tag { display: inline-block; color: #c8a45e; font-size: 0.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; border: 1px solid rgba(200,164,94,0.4); padding: 6px 16px; border-radius: 2px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: #fff; line-height: 1.15; margin-bottom: 20px; font-weight: 700; }
+    .hero p { color: rgba(255,255,255,0.8); font-size: 1.1rem; line-height: 1.7; margin-bottom: 32px; font-weight: 300; }
+    .hero-buttons { display: flex; gap: 16px; }
+    .btn-gold { background: #c8a45e; color: #fff; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px; }
+    .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-size: 0.9rem; font-weight: 400; }
+
+    /* Stats bar */
+    .stats-bar { background: #0f0f1e; padding: 40px 60px; display: flex; justify-content: center; gap: 80px; }
+    .stat { text-align: center; }
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #c8a45e; font-weight: 700; }
+    .stat-label { color: rgba(255,255,255,0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+
+    /* Listings */
+    .listings { padding: 80px 60px; background: #fafaf8; }
+    .listings-header { text-align: center; margin-bottom: 50px; }
+    .listings-header span { color: #c8a45e; font-size: 0.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
+    .listings-header h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-top: 12px; color: #1a1a2e; }
+    .listings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1100px; margin: 0 auto; }
+    .listing-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .listing-img { height: 220px; background-size: cover; background-position: center; position: relative; }
+    .listing-price { position: absolute; bottom: 12px; left: 12px; background: #1a1a2e; color: #c8a45e; padding: 6px 14px; border-radius: 4px; font-weight: 600; font-size: 0.95rem; }
+    .listing-info { padding: 20px; }
+    .listing-info h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 8px; color: #1a1a2e; }
+    .listing-meta { color: #888; font-size: 0.8rem; display: flex; gap: 16px; }
+
+    /* CTA */
+    .cta { background: linear-gradient(135deg, #1a1a2e, #0f0f1e); padding: 80px 60px; text-align: center; }
+    .cta h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; margin-bottom: 16px; }
+    .cta p { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">Sarah Mitchell</div>
+    <ul class="nav-links">
+      <li><a href="#">Listings</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Testimonials</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Book a Consultation</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Miami Luxury Real Estate</div>
+      <h1>Find Your Dream Home in Miami</h1>
+      <p>With over 15 years of experience in Miami's luxury market, I help families find homes they'll love for generations.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-gold">Browse Listings</a>
+        <a href="#" class="btn-outline">Schedule a Call</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-number">$120M+</div><div class="stat-label">Properties Sold</div></div>
+    <div class="stat"><div class="stat-number">200+</div><div class="stat-label">Happy Families</div></div>
+    <div class="stat"><div class="stat-number">15</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat"><div class="stat-number">#1</div><div class="stat-label">Miami Agent 2025</div></div>
+  </div>
+
+  <section class="listings">
+    <div class="listings-header">
+      <span>Featured Properties</span>
+      <h2>Exclusive Miami Listings</h2>
+    </div>
+    <div class="listings-grid">
+      <div class="listing-card">
+        <div class="listing-img" style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80')">
+          <div class="listing-price">$2,450,000</div>
+        </div>
+        <div class="listing-info">
+          <h3>Modern Waterfront Villa</h3>
+          <div class="listing-meta"><span>5 Bed</span><span>4 Bath</span><span>4,200 sqft</span></div>
+        </div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-img" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80')">
+          <div class="listing-price">$1,890,000</div>
+        </div>
+        <div class="listing-info">
+          <h3>Coral Gables Estate</h3>
+          <div class="listing-meta"><span>4 Bed</span><span>3 Bath</span><span>3,600 sqft</span></div>
+        </div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-img" style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80')">
+          <div class="listing-price">$3,200,000</div>
+        </div>
+        <div class="listing-info">
+          <h3>Brickell Penthouse</h3>
+          <div class="listing-meta"><span>3 Bed</span><span>3 Bath</span><span>2,800 sqft</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Ready to Find Your Dream Home?</h2>
+    <p>Let's start the conversation. Book a free consultation and let me guide you through Miami's best properties.</p>
+    <a href="#" class="btn-gold">Get in Touch</a>
+  </section>
+
+</body>
+</html>

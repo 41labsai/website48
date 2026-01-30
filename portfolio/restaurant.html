@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Golden Fork — Modern Italian Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; color: #1a1a1a; background: #fff; }
+
+    /* Nav */
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9rem; font-weight: 400; }
+    .nav-cta { background: #d4a84b; color: #fff; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+
+    /* Hero */
+    .hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, rgba(10,10,10,0.6), rgba(10,10,10,0.3)), url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80') center/cover no-repeat; }
+    .hero-content { max-width: 700px; }
+    .hero-tag { color: #d4a84b; font-size: 0.8rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.8rem; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+    .hero p { color: rgba(255,255,255,0.7); font-size: 1.1rem; line-height: 1.7; margin-bottom: 36px; font-weight: 300; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; }
+    .btn-warm { background: #d4a84b; color: #fff; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; }
+
+    /* Info bar */
+    .info-bar { background: #1a1a1a; padding: 40px 60px; display: flex; justify-content: center; gap: 60px; }
+    .info-item { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+    .info-icon { color: #d4a84b; font-size: 1.2rem; }
+
+    /* Menu */
+    .menu { padding: 80px 60px; background: #faf8f5; }
+    .menu-header { text-align: center; margin-bottom: 50px; }
+    .menu-header span { color: #d4a84b; font-size: 0.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
+    .menu-header h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-top: 12px; color: #1a1a1a; }
+    .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1100px; margin: 0 auto; }
+    .menu-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
+    .menu-img { height: 220px; background-size: cover; background-position: center; }
+    .menu-info { padding: 20px; }
+    .menu-info h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 6px; }
+    .menu-info p { color: #888; font-size: 0.85rem; line-height: 1.5; margin-bottom: 10px; }
+    .menu-price { color: #d4a84b; font-weight: 700; font-size: 1rem; }
+
+    /* Reservation */
+    .reservation { background: linear-gradient(135deg, #1a1a1a, #111); padding: 80px 60px; text-align: center; }
+    .reservation h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; margin-bottom: 16px; }
+    .reservation p { color: rgba(255,255,255,0.5); margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .res-form { display: flex; gap: 12px; justify-content: center; max-width: 600px; margin: 0 auto; }
+    .res-input { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 14px 20px; border-radius: 50px; font-size: 0.9rem; flex: 1; font-family: 'Inter', sans-serif; }
+    .res-input::placeholder { color: rgba(255,255,255,0.35); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">The Golden Fork</div>
+    <ul class="nav-links">
+      <li><a href="#">Menu</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Gallery</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Reserve a Table</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Modern Italian Cuisine</div>
+      <h1>Where Every Meal Becomes a Memory</h1>
+      <p>Handmade pasta, wood-fired flavors, and a warm atmosphere in the heart of downtown.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-warm">Reserve a Table</a>
+        <a href="#" class="btn-outline">View Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="info-bar">
+    <div class="info-item"><span class="info-icon">📍</span> 142 Oak Street, Downtown</div>
+    <div class="info-item"><span class="info-icon">🕐</span> Tue–Sun · 5PM – 11PM</div>
+    <div class="info-item"><span class="info-icon">📞</span> (555) 234-5678</div>
+  </div>
+
+  <section class="menu">
+    <div class="menu-header">
+      <span>Our Specialties</span>
+      <h2>From Our Kitchen to Your Table</h2>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-img" style="background-image:url('https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&q=80')"></div>
+        <div class="menu-info">
+          <h3>Truffle Tagliatelle</h3>
+          <p>Handmade pasta with black truffle cream, parmesan, fresh herbs</p>
+          <div class="menu-price">$28</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80')"></div>
+        <div class="menu-info">
+          <h3>Margherita Napoletana</h3>
+          <p>San Marzano tomato, fior di latte, fresh basil, wood-fired</p>
+          <div class="menu-price">$19</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img" style="background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80')"></div>
+        <div class="menu-info">
+          <h3>Bistecca alla Fiorentina</h3>
+          <p>42oz T-bone, rosemary, garlic butter, roasted vegetables</p>
+          <div class="menu-price">$65</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reservation">
+    <h2>Reserve Your Table Tonight</h2>
+    <p>Join us for an unforgettable dining experience. Walk-ins welcome, reservations recommended.</p>
+    <div class="res-form">
+      <input class="res-input" type="text" placeholder="Your Name">
+      <input class="res-input" type="text" placeholder="Date & Time">
+      <a href="#" class="btn-warm">Book Now</a>
+    </div>
+  </section>
+
+</body>
+</html>
