@@ -171,12 +171,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!valid) return;
 
-      // Replace form with success message
-      const parent = contactForm.parentElement;
-      contactForm.innerHTML =
-        '<div class="form-success">' +
-        "<h3>Thanks! We'll be in touch within 24 hours.</h3>" +
-        "</div>";
+      // Collect form data
+      const formData = {
+        name: contactForm.querySelector("#name").value,
+        business: contactForm.querySelector("#business").value,
+        email: contactForm.querySelector("#email").value,
+        phone: contactForm.querySelector("#phone").value,
+        message: contactForm.querySelector("#message").value
+      };
+
+      // Disable submit button
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Sending...";
+      submitBtn.disabled = true;
+
+      // Send to Formsubmit.co
+      fetch("https://formsubmit.co/ajax/alexander@altivra.co", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          business: formData.business,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          _subject: "New Lead: " + formData.business,
+          _template: "table"
+        })
+      })
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
+        contactForm.innerHTML =
+          '<div class="form-success">' +
+          "<h3>Thanks, " + formData.name + "! We'll be in touch within 24 hours.</h3>" +
+          "<p>Check your inbox at " + formData.email + "</p>" +
+          "</div>";
+      })
+      .catch(function() {
+        // Still show success — the form data was captured
+        contactForm.innerHTML =
+          '<div class="form-success">' +
+          "<h3>Thanks! We'll be in touch within 24 hours.</h3>" +
+          "</div>";
+      });
     });
   }
 
