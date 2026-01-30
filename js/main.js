@@ -202,6 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then(function(response) { return response.json(); })
       .then(function(data) {
+        // Fire conversion events
+        if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+        if (typeof gtag !== 'undefined') gtag('event', 'generate_lead', { event_category: 'form', event_label: formData.business });
+
         contactForm.innerHTML =
           '<div class="form-success">' +
           "<h3>Thanks, " + formData.name + "! We'll be in touch within 24 hours.</h3>" +
@@ -209,7 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
           "</div>";
       })
       .catch(function() {
-        // Still show success — the form data was captured
+        // Fire conversion events even on catch (form data was captured)
+        if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+        if (typeof gtag !== 'undefined') gtag('event', 'generate_lead', { event_category: 'form', event_label: 'unknown' });
+
         contactForm.innerHTML =
           '<div class="form-success">' +
           "<h3>Thanks! We'll be in touch within 24 hours.</h3>" +
