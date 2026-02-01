@@ -11,14 +11,23 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; color: #1e293b; background: #fff; }
 
-    .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; }
+    /* ── Navbar ── */
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1), border-color 0.3s; }
+    .nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-bottom-color: #e2e8f0; }
+    .nav.hidden { transform: translateY(-100%); }
     .nav-logo { font-size: 1.3rem; font-weight: 700; color: #0d9488; }
     .nav-logo span { color: #1e293b; }
     .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { color: #475569; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a { color: #475569; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; position: relative; padding-bottom: 4px; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #0d9488; transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
     .nav-links a:hover { color: #0d9488; }
-    .nav-cta { background: #0d9488; color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .nav-links a.active { color: #0d9488; }
+    .nav-links a.active::after { width: 100%; }
+    .nav-cta { background: #0d9488; color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #1e293b; border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
 
+    /* ── Hero ── */
     .hero { padding: 140px 60px 80px; background: linear-gradient(135deg, #f0fdfa, #ecfdf5); display: flex; align-items: center; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center; }
     .hero-tag { display: inline-block; background: rgba(13,148,136,0.1); color: #0d9488; font-size: 0.75rem; font-weight: 600; padding: 6px 14px; border-radius: 50px; margin-bottom: 16px; }
@@ -26,34 +35,65 @@
     .hero h1 span { color: #0d9488; }
     .hero p { color: #64748b; font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; }
     .hero-buttons { display: flex; gap: 12px; }
-    .btn-teal { background: #0d9488; color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-    .btn-light { background: #fff; color: #0d9488; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
     .hero-img { width: 100%; height: 400px; border-radius: 16px; background: url('https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80') center/cover; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
 
-    .stats-bar { padding: 40px 60px; display: flex; justify-content: center; gap: 60px; border-bottom: 1px solid #e2e8f0; }
+    /* Hero load sequence */
+    .hero-anim { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    body.hero-loaded .hero-anim:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+    body.hero-loaded .hero-anim:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    body.hero-loaded .hero-anim:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+    body.hero-loaded .hero-anim:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+    body.hero-loaded .hero-img-wrap { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+
+    .hero-img-wrap { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+    /* ── Buttons micro-interactions ── */
+    .btn-teal, .btn-light { display: inline-block; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1); }
+    .btn-teal { background: #0d9488; color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; }
+    .btn-teal:hover { transform: scale(1.04); box-shadow: 0 0 20px rgba(13,148,136,0.35); }
+    .btn-teal:active { transform: scale(0.97); }
+    .btn-light { background: #fff; color: #0d9488; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; cursor: pointer; }
+    .btn-light:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .btn-light:active { transform: scale(0.97); }
+
+    /* ── Stats ── */
+    .stats-bar { padding: 40px 60px; display: flex; justify-content: center; gap: 60px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; }
     .stat { text-align: center; }
     .stat-number { font-size: 2rem; font-weight: 700; color: #0d9488; }
     .stat-label { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
+    /* ── Sections ── */
     .section { padding: 80px 60px; }
     .section-header { text-align: center; margin-bottom: 50px; }
     .section-tag { color: #0d9488; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
     .section-header h2 { font-size: 2rem; margin-top: 10px; color: #0f172a; }
 
+    /* ── Services (flip cards) ── */
     .services { background: #f8fafc; }
     .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
-    .service-card { background: #fff; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; transition: box-shadow 0.2s; }
-    .service-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-    .service-icon { width: 48px; height: 48px; background: #f0fdfa; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; }
-    .service-card h3 { font-size: 1.05rem; margin-bottom: 8px; color: #0f172a; }
-    .service-card p { color: #64748b; font-size: 0.85rem; line-height: 1.6; }
+    .service-card-wrapper { perspective: 800px; height: 260px; cursor: pointer; }
+    .service-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; }
+    .service-card-wrapper.flipped .service-card-inner { transform: rotateY(180deg); }
+    .service-card-front, .service-card-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; background: #fff; display: flex; flex-direction: column; }
+    .service-card-front { transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1); }
+    .service-card-wrapper:hover .service-card-front { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
+    .service-card-wrapper.flipped:hover .service-card-front { transform: none; box-shadow: none; }
+    .service-card-back { transform: rotateY(180deg); justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, #f0fdfa, #fff); }
+    .service-card-back p { color: #475569; font-size: 0.88rem; line-height: 1.7; margin-bottom: 20px; }
+    .service-card-back .btn-teal { padding: 10px 22px; font-size: 0.82rem; }
+    .service-icon { width: 48px; height: 48px; background: #f0fdfa; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; flex-shrink: 0; }
+    .service-card-front h3 { font-size: 1.05rem; margin-bottom: 8px; color: #0f172a; }
+    .service-card-front p { color: #64748b; font-size: 0.85rem; line-height: 1.6; }
+    .service-card-back h4 { font-size: 1.05rem; color: #0f172a; margin-bottom: 10px; }
 
+    /* ── About ── */
     .about { background: #fff; }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center; }
     .about-img { width: 100%; height: 380px; border-radius: 12px; background: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80') center/cover; }
     .about-text h3 { font-size: 1.6rem; margin-bottom: 16px; }
     .about-text p { color: #64748b; line-height: 1.8; margin-bottom: 14px; font-size: 0.92rem; }
 
+    /* ── Hours ── */
     .hours { background: #f8fafc; }
     .hours-card { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 40px; border: 1px solid #e2e8f0; }
     .hours-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
@@ -61,95 +101,202 @@
     .hours-day { font-weight: 500; color: #0f172a; }
     .hours-time { color: #64748b; }
 
+    /* Open/Closed indicator */
+    .hours-status { text-align: center; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.95rem; font-weight: 600; }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .status-dot.open { background: #22c55e; animation: pulse-green 1.5s ease-in-out infinite; }
+    .status-dot.closed { background: #ef4444; animation: pulse-red 1.5s ease-in-out infinite; }
+    @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); } 50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } }
+    @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); } 50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); } }
+    .status-text.open { color: #16a34a; }
+    .status-text.closed { color: #dc2626; }
+
+    /* ── Contact ── */
     .contact { background: #0f172a; text-align: center; }
     .contact .section-header h2 { color: #fff; }
+    .contact .section-tag { color: #5eead4; }
     .contact p { color: rgba(255,255,255,0.5); margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }
-    .contact-details { display: flex; gap: 40px; justify-content: center; margin-top: 24px; }
+    .contact-details { display: flex; gap: 40px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
     .contact-details span { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
 
     .footer { background: #0a0f1a; padding: 24px 60px; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-left.active { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .nav { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-links.mobile-open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 20px 24px; gap: 16px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+
+      .hero { padding: 110px 24px 50px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-img { height: 260px; }
+      .hero-buttons { flex-direction: column; }
+
+      .stats-bar { padding: 30px 24px; gap: 24px; }
+      .stat-number { font-size: 1.5rem; }
+
+      .section { padding: 50px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img { height: 240px; }
+      .contact-details { flex-direction: column; gap: 12px; }
+
+      .footer { padding: 20px 24px; }
+    }
   </style>
 </head>
 <body>
 
-  <nav class="nav">
+  <nav class="nav" id="navbar">
     <div class="nav-logo">Orchard <span>Family Clinic</span></div>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#hours">Hours</a></li>
-      <li><a href="#contact">Contact</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services" data-section="services">Services</a></li>
+      <li><a href="#about" data-section="about">About</a></li>
+      <li><a href="#hours" data-section="hours">Hours</a></li>
+      <li><a href="#contact" data-section="contact">Contact</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Book Appointment</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <section class="hero" id="home">
     <div class="hero-grid">
       <div>
-        <div class="hero-tag">Your Neighbourhood GP</div>
-        <h1>Quality Healthcare for <span>Your Family</span></h1>
-        <p>Trusted by over 2,000 families in the Orchard area. Walk-ins welcome, appointments preferred. CHAS & MediSave accepted.</p>
-        <div class="hero-buttons">
-          <a href="#contact" class="btn-teal">Book Appointment</a>
-          <a href="#services" class="btn-light">Our Services</a>
+        <div class="hero-anim"><div class="hero-tag">Your Neighbourhood GP</div></div>
+        <div class="hero-anim"><h1>Quality Healthcare for <span>Your Family</span></h1></div>
+        <div class="hero-anim"><p>Trusted by over 2,000 families in the Orchard area. Walk-ins welcome, appointments preferred. CHAS &amp; MediSave accepted.</p></div>
+        <div class="hero-anim">
+          <div class="hero-buttons">
+            <a href="#contact" class="btn-teal">Book Appointment</a>
+            <a href="#services" class="btn-light">Our Services</a>
+          </div>
         </div>
       </div>
-      <div class="hero-img"></div>
+      <div class="hero-img-wrap">
+        <div class="hero-img"></div>
+      </div>
     </div>
   </section>
 
-  <div class="stats-bar">
-    <div class="stat"><div class="stat-number">2,000+</div><div class="stat-label">Patients</div></div>
-    <div class="stat"><div class="stat-number">15</div><div class="stat-label">Years in Practice</div></div>
-    <div class="stat"><div class="stat-number">4.9★</div><div class="stat-label">Google Rating</div></div>
-    <div class="stat"><div class="stat-number">CHAS</div><div class="stat-label">Accredited</div></div>
+  <div class="stats-bar" id="statsBar">
+    <div class="stat reveal"><div class="stat-number" data-target="2000" data-suffix="+">0</div><div class="stat-label">Patients</div></div>
+    <div class="stat reveal"><div class="stat-number" data-target="15" data-suffix="">0</div><div class="stat-label">Years in Practice</div></div>
+    <div class="stat reveal"><div class="stat-number" data-target="4.9" data-suffix="" data-decimal="1">0</div><div class="stat-label">Google Rating</div></div>
+    <div class="stat reveal"><div class="stat-number" data-text="CHAS">CHAS</div><div class="stat-label">Accredited</div></div>
   </div>
 
   <section class="section services" id="services">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">Our Services</span>
       <h2>Comprehensive Care Under One Roof</h2>
     </div>
     <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🩺</div>
-        <h3>General Consultation</h3>
-        <p>Comprehensive health assessments, chronic disease management, and acute illness treatment for all ages.</p>
+      <div class="service-card-wrapper reveal" onclick="this.classList.toggle('flipped')">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon">&#x1FA7A;</div>
+            <h3>General Consultation</h3>
+            <p>Comprehensive health assessments, chronic disease management, and acute illness treatment for all ages.</p>
+          </div>
+          <div class="service-card-back">
+            <h4>General Consultation</h4>
+            <p>From common colds to long-term chronic care plans, our doctors take time to listen and provide evidence-based treatment tailored to you.</p>
+            <a href="#contact" class="btn-teal" onclick="event.stopPropagation()">Book Now</a>
+          </div>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">💉</div>
-        <h3>Health Screenings</h3>
-        <p>Full blood work, cholesterol checks, diabetes screening, and corporate health screening packages.</p>
+      <div class="service-card-wrapper reveal" onclick="this.classList.toggle('flipped')">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon">&#x1F489;</div>
+            <h3>Health Screenings</h3>
+            <p>Full blood work, cholesterol checks, diabetes screening, and corporate health screening packages.</p>
+          </div>
+          <div class="service-card-back">
+            <h4>Health Screenings</h4>
+            <p>Early detection saves lives. Our comprehensive packages cover blood panels, BMI, blood pressure, and organ function tests with same-day results.</p>
+            <a href="#contact" class="btn-teal" onclick="event.stopPropagation()">Book Now</a>
+          </div>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">🫁</div>
-        <h3>Vaccinations</h3>
-        <p>Flu shots, travel vaccinations, HPV, and childhood immunisation schedules. MOH-approved vaccines.</p>
+      <div class="service-card-wrapper reveal" onclick="this.classList.toggle('flipped')">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon">&#x1FAC1;</div>
+            <h3>Vaccinations</h3>
+            <p>Flu shots, travel vaccinations, HPV, and childhood immunisation schedules. MOH-approved vaccines.</p>
+          </div>
+          <div class="service-card-back">
+            <h4>Vaccinations</h4>
+            <p>Stay protected with our full range of MOH-approved vaccines. We offer travel health consultations and maintain digital vaccination records.</p>
+            <a href="#contact" class="btn-teal" onclick="event.stopPropagation()">Book Now</a>
+          </div>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">👶</div>
-        <h3>Paediatric Care</h3>
-        <p>Developmental milestones, childhood illnesses, and school health assessments for children of all ages.</p>
+      <div class="service-card-wrapper reveal" onclick="this.classList.toggle('flipped')">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon">&#x1F476;</div>
+            <h3>Paediatric Care</h3>
+            <p>Developmental milestones, childhood illnesses, and school health assessments for children of all ages.</p>
+          </div>
+          <div class="service-card-back">
+            <h4>Paediatric Care</h4>
+            <p>Gentle, child-friendly care from infancy through adolescence. We track developmental milestones and provide guidance for parents at every stage.</p>
+            <a href="#contact" class="btn-teal" onclick="event.stopPropagation()">Book Now</a>
+          </div>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">🏥</div>
-        <h3>Minor Procedures</h3>
-        <p>Wound care, stitching, mole removal, ear syringing, and other in-clinic procedures.</p>
+      <div class="service-card-wrapper reveal" onclick="this.classList.toggle('flipped')">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon">&#x1F3E5;</div>
+            <h3>Minor Procedures</h3>
+            <p>Wound care, stitching, mole removal, ear syringing, and other in-clinic procedures.</p>
+          </div>
+          <div class="service-card-back">
+            <h4>Minor Procedures</h4>
+            <p>Performed in our fully-equipped treatment room with proper anaesthesia. Quick recovery and follow-up care included in all procedures.</p>
+            <a href="#contact" class="btn-teal" onclick="event.stopPropagation()">Book Now</a>
+          </div>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">📋</div>
-        <h3>Medical Certificates</h3>
-        <p>MC issuance, pre-employment checkups, insurance medicals, and driving license assessments.</p>
+      <div class="service-card-wrapper reveal" onclick="this.classList.toggle('flipped')">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon">&#x1F4CB;</div>
+            <h3>Medical Certificates</h3>
+            <p>MC issuance, pre-employment checkups, insurance medicals, and driving license assessments.</p>
+          </div>
+          <div class="service-card-back">
+            <h4>Medical Certificates</h4>
+            <p>Fast and thorough medical documentation. Corporate clients welcome for bulk pre-employment screenings and annual health audits.</p>
+            <a href="#contact" class="btn-teal" onclick="event.stopPropagation()">Book Now</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section about" id="about">
     <div class="about-grid">
-      <div class="about-img"></div>
-      <div class="about-text">
+      <div class="about-img reveal-left"></div>
+      <div class="about-text reveal-right">
         <span class="section-tag">About Us</span>
-        <h3>Dr. Rachel Tan & Team</h3>
+        <h3>Dr. Rachel Tan &amp; Team</h3>
         <p>Dr. Rachel Tan graduated from NUS Medicine in 2009 and has been serving the Orchard community for over 15 years. She believes in building long-term relationships with her patients — treating the person, not just the symptoms.</p>
         <p>Our clinic is equipped with modern diagnostic tools and staffed by a friendly, multilingual team (English, Mandarin, Malay). We accept CHAS, MediSave, and all major insurance panels.</p>
       </div>
@@ -157,32 +304,190 @@
   </section>
 
   <section class="section hours" id="hours">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">Clinic Hours</span>
       <h2>When to Visit Us</h2>
     </div>
-    <div class="hours-card">
-      <div class="hours-row"><span class="hours-day">Monday – Friday</span><span class="hours-time">8:30 AM – 1:00 PM, 2:00 PM – 5:30 PM</span></div>
-      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">8:30 AM – 12:30 PM</span></div>
-      <div class="hours-row"><span class="hours-day">Sunday & PH</span><span class="hours-time">Closed</span></div>
+    <div class="hours-card reveal">
+      <div class="hours-status" id="clinicStatus"></div>
+      <div class="hours-row"><span class="hours-day">Monday – Friday</span><span class="hours-time">8:00 AM – 9:00 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">8:00 AM – 1:00 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Sunday &amp; PH</span><span class="hours-time">Closed</span></div>
     </div>
   </section>
 
   <section class="section contact" id="contact">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">Visit Us</span>
       <h2>Book an Appointment</h2>
     </div>
-    <p>Walk-ins are welcome. For shorter wait times, book ahead via WhatsApp or call us directly.</p>
-    <a href="#" class="btn-teal">WhatsApp Us</a>
-    <div class="contact-details">
-      <span>📞 6734 5678</span>
-      <span>📍 391 Orchard Rd, #04-12</span>
-      <span>📧 hello@orchardfamilyclinic.sg</span>
+    <p class="reveal">Walk-ins are welcome. For shorter wait times, book ahead via WhatsApp or call us directly.</p>
+    <div class="reveal"><a href="#" class="btn-teal">WhatsApp Us</a></div>
+    <div class="contact-details reveal">
+      <span>&#x1F4DE; 6734 5678</span>
+      <span>&#x1F4CD; 391 Orchard Rd, #04-12</span>
+      <span>&#x1F4E7; hello@orchardfamilyclinic.sg</span>
     </div>
   </section>
 
-  <footer class="footer">© 2025 Orchard Family Clinic. All rights reserved.</footer>
+  <footer class="footer">&copy; 2025 Orchard Family Clinic. All rights reserved.</footer>
 
+  <script>
+    (function() {
+      'use strict';
+
+      /* ── Hero load sequence ── */
+      setTimeout(function() { document.body.classList.add('hero-loaded'); }, 200);
+
+      /* ── Mobile hamburger ── */
+      var hamburger = document.getElementById('hamburger');
+      var navLinks = document.getElementById('navLinks');
+      hamburger.addEventListener('click', function() {
+        navLinks.classList.toggle('mobile-open');
+      });
+
+      /* ── Smart Navbar ── */
+      var nav = document.getElementById('navbar');
+      var lastScroll = 0;
+      var ticking = false;
+
+      function onScroll() {
+        var currentScroll = window.pageYOffset;
+
+        // Add/remove scrolled class
+        if (currentScroll > 10) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+
+        // Hide on scroll down, show on scroll up
+        if (currentScroll > lastScroll && currentScroll > 80) {
+          nav.classList.add('hidden');
+        } else {
+          nav.classList.remove('hidden');
+        }
+
+        lastScroll = currentScroll;
+
+        // Active section highlighting
+        var sections = document.querySelectorAll('section[id]');
+        var links = document.querySelectorAll('.nav-links a[data-section]');
+        var found = false;
+        for (var i = sections.length - 1; i >= 0; i--) {
+          var rect = sections[i].getBoundingClientRect();
+          if (rect.top <= 120) {
+            var id = sections[i].getAttribute('id');
+            links.forEach(function(link) {
+              link.classList.toggle('active', link.getAttribute('data-section') === id);
+            });
+            found = true;
+            break;
+          }
+        }
+        if (!found) links.forEach(function(l) { l.classList.remove('active'); });
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      });
+
+      /* ── Scroll Reveal (Intersection Observer) ── */
+      var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealEls.forEach(function(el) { revealObserver.observe(el); });
+
+      /* ── Animated Number Counters ── */
+      function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+      var countersStarted = false;
+      var statNumbers = document.querySelectorAll('.stat-number[data-target]');
+
+      function animateCounters() {
+        if (countersStarted) return;
+        countersStarted = true;
+        var duration = 2000;
+
+        statNumbers.forEach(function(el) {
+          var target = parseFloat(el.getAttribute('data-target'));
+          var suffix = el.getAttribute('data-suffix') || '';
+          var decimal = parseInt(el.getAttribute('data-decimal')) || 0;
+          var start = performance.now();
+
+          function update(now) {
+            var elapsed = now - start;
+            var progress = Math.min(elapsed / duration, 1);
+            var value = easeOutQuart(progress) * target;
+
+            if (decimal > 0) {
+              el.textContent = value.toFixed(decimal) + suffix;
+            } else {
+              el.textContent = Math.floor(value).toLocaleString() + suffix;
+            }
+
+            // Add star for rating
+            if (target === 4.9 && progress >= 1) {
+              el.textContent = '4.9\u2605';
+            }
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            }
+          }
+          requestAnimationFrame(update);
+        });
+      }
+
+      var statsBar = document.getElementById('statsBar');
+      var statsObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounters();
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      statsObserver.observe(statsBar);
+
+      /* ── Open/Closed Indicator ── */
+      function updateClinicStatus() {
+        var now = new Date();
+        var day = now.getDay(); // 0=Sun
+        var hour = now.getHours();
+        var isOpen = false;
+
+        if (day >= 1 && day <= 5) {
+          // Mon-Fri 8am-9pm
+          isOpen = hour >= 8 && hour < 21;
+        } else if (day === 6) {
+          // Sat 8am-1pm
+          isOpen = hour >= 8 && hour < 13;
+        }
+
+        var el = document.getElementById('clinicStatus');
+        if (isOpen) {
+          el.innerHTML = '<span class="status-dot open"></span><span class="status-text open">Open Now</span>';
+        } else {
+          el.innerHTML = '<span class="status-dot closed"></span><span class="status-text closed">Closed</span>';
+        }
+      }
+      updateClinicStatus();
+      setInterval(updateClinicStatus, 60000);
+
+    })();
+  </script>
 </body>
 </html>

@@ -11,57 +11,98 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; color: #1e293b; background: #fff; }
 
-    .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; }
+    /* ── Navbar ── */
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.3s; }
+    .nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-bottom-color: #e2e8f0; }
+    .nav.hidden { transform: translateY(-100%); }
     .nav-logo { font-size: 1.3rem; font-weight: 800; color: #4f46e5; }
     .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { color: #475569; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a { color: #475569; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; position: relative; padding-bottom: 4px; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #4f46e5; transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
     .nav-links a:hover { color: #4f46e5; }
-    .nav-cta { background: #4f46e5; color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: #4f46e5; }
+    .nav-cta { background: #4f46e5; color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s; }
+    .nav-cta:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(79,70,229,0.35); }
+    .nav-cta:active { transform: scale(0.97); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #1e293b; border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+    /* ── Hero ── */
     .hero { padding: 140px 60px 80px; background: linear-gradient(135deg, #eef2ff, #e0e7ff); }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center; }
-    .hero-tag { display: inline-block; background: rgba(79,70,229,0.1); color: #4f46e5; font-size: 0.75rem; font-weight: 600; padding: 6px 14px; border-radius: 50px; margin-bottom: 16px; }
-    .hero h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 16px; color: #0f172a; }
+    .hero-tag { display: inline-block; background: rgba(79,70,229,0.1); color: #4f46e5; font-size: 0.75rem; font-weight: 600; padding: 6px 14px; border-radius: 50px; margin-bottom: 16px; opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .hero h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 16px; color: #0f172a; opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1) 0.15s, transform 0.6s cubic-bezier(0.4,0,0.2,1) 0.15s; }
     .hero h1 span { color: #4f46e5; }
-    .hero p { color: #64748b; font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; }
-    .hero-buttons { display: flex; gap: 12px; }
-    .btn-indigo { background: #4f46e5; color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-    .btn-light { background: #fff; color: #4f46e5; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
-    .hero-img { width: 100%; height: 400px; border-radius: 16px; background: url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80') center/cover; box-shadow: 0 20px 60px rgba(79,70,229,0.15); }
+    .hero p { color: #64748b; font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1) 0.3s, transform 0.6s cubic-bezier(0.4,0,0.2,1) 0.3s; }
+    .hero-buttons { display: flex; gap: 12px; opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1) 0.45s, transform 0.6s cubic-bezier(0.4,0,0.2,1) 0.45s; }
+    .hero-img { width: 100%; height: 400px; border-radius: 16px; background: url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80') center/cover; box-shadow: 0 20px 60px rgba(79,70,229,0.15); opacity: 0; transform: translateY(20px); transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1) 0.3s, transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.3s; }
+    body.hero-loaded .hero-tag,
+    body.hero-loaded .hero h1,
+    body.hero-loaded .hero p,
+    body.hero-loaded .hero-buttons,
+    body.hero-loaded .hero-img { opacity: 1; transform: translateY(0); }
 
+    /* ── Buttons micro-interactions ── */
+    .btn-indigo { background: #4f46e5; color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-block; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s; cursor: pointer; border: none; }
+    .btn-indigo:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(79,70,229,0.35); }
+    .btn-indigo:active { transform: scale(0.97); }
+    .btn-light { background: #fff; color: #4f46e5; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; display: inline-block; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s; cursor: pointer; }
+    .btn-light:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .btn-light:active { transform: scale(0.97); }
+
+    /* ── Stats bar ── */
     .stats-bar { padding: 40px 60px; display: flex; justify-content: center; gap: 60px; border-bottom: 1px solid #e2e8f0; }
     .stat { text-align: center; }
     .stat-number { font-size: 2rem; font-weight: 700; color: #4f46e5; }
     .stat-label { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
+    /* ── Sections ── */
     .section { padding: 80px 60px; }
     .section-header { text-align: center; margin-bottom: 50px; }
     .section-tag { color: #4f46e5; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
     .section-header h2 { font-size: 2rem; margin-top: 10px; color: #0f172a; }
 
+    /* ── Programmes ── */
     .programmes { background: #f8fafc; }
     .programmes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
-    .programme-card { background: #fff; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; }
+    .programme-card { background: #fff; border-radius: 12px; padding: 32px; border: 2px solid #e2e8f0; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.35s; position: relative; overflow: hidden; }
+    .programme-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(79,70,229,0.12); border-color: #4f46e5; }
+    .programme-card.popular { border-color: #4f46e5; }
+    .popular-badge { position: absolute; top: 16px; right: -30px; background: #4f46e5; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 4px 36px; transform: rotate(45deg); text-transform: uppercase; letter-spacing: 0.5px; }
     .programme-level { display: inline-block; background: #eef2ff; color: #4f46e5; font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
     .programme-card h3 { font-size: 1.1rem; margin-bottom: 8px; color: #0f172a; }
     .programme-card p { color: #64748b; font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; }
     .programme-price { font-weight: 700; color: #4f46e5; font-size: 1.1rem; }
     .programme-price span { font-weight: 400; color: #94a3b8; font-size: 0.8rem; }
 
+    /* ── Results ── */
     .results { background: #fff; }
     .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
     .result-card { text-align: center; padding: 32px; background: #f8fafc; border-radius: 12px; }
     .result-number { font-size: 2.4rem; font-weight: 800; color: #4f46e5; }
     .result-label { color: #64748b; font-size: 0.82rem; margin-top: 6px; }
+    .result-bar-wrap { width: 100%; height: 6px; background: #e2e8f0; border-radius: 3px; margin-top: 14px; overflow: hidden; }
+    .result-bar { height: 100%; background: linear-gradient(90deg, #4f46e5, #818cf8); border-radius: 3px; width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
 
+    /* ── Testimonials carousel ── */
     .testimonials { background: #f8fafc; }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 900px; margin: 0 auto; }
+    .carousel { max-width: 700px; margin: 0 auto; position: relative; overflow: hidden; min-height: 220px; }
+    .carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
+    .carousel-slide.active { opacity: 1; pointer-events: auto; position: relative; }
     .testimonial-card { background: #fff; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; }
     .testimonial-stars { color: #eab308; margin-bottom: 12px; letter-spacing: 2px; }
     .testimonial-card p { color: #475569; font-size: 0.9rem; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
     .testimonial-author { font-weight: 600; font-size: 0.85rem; color: #0f172a; }
     .testimonial-detail { font-size: 0.78rem; color: #94a3b8; }
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+    .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; border: none; cursor: pointer; transition: background 0.3s, transform 0.3s; padding: 0; }
+    .carousel-dot.active { background: #4f46e5; transform: scale(1.25); }
 
+    /* ── Contact ── */
     .contact { background: #0f172a; text-align: center; }
     .contact .section-header h2 { color: #fff; }
     .contact p { color: rgba(255,255,255,0.5); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
@@ -69,13 +110,41 @@
     .contact-details span { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
 
     .footer { background: #0a0f1a; padding: 24px 60px; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .reveal.active, .reveal-left.active, .reveal-right.active { opacity: 1; transform: translate(0); }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 20px; gap: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-bottom: 1px solid #e2e8f0; }
+      .nav-links.open { display: flex; }
+      .nav-hamburger { display: flex; }
+      .nav-cta { display: none; }
+      .hero { padding: 110px 20px 50px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-img { height: 260px; }
+      .stats-bar { flex-wrap: wrap; gap: 24px 40px; padding: 30px 20px; }
+      .section { padding: 50px 20px; }
+      .programmes-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .contact-details { flex-direction: column; gap: 12px; }
+      .footer { padding: 20px; }
+    }
   </style>
 </head>
 <body>
 
-  <nav class="nav">
+  <nav class="nav" id="navbar">
     <div class="nav-logo">Apex Learning</div>
-    <ul class="nav-links">
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#programmes">Programmes</a></li>
       <li><a href="#results">Results</a></li>
       <li><a href="#testimonials">Reviews</a></li>
@@ -89,7 +158,7 @@
       <div>
         <div class="hero-tag">Singapore's Trusted Tuition Centre</div>
         <h1>Help Your Child <span>Excel in School</span></h1>
-        <p>Small group tuition for Primary, Secondary & JC students. MOE-aligned curriculum taught by experienced NIE-trained tutors in Bishan.</p>
+        <p>Small group tuition for Primary, Secondary &amp; JC students. MOE-aligned curriculum taught by experienced NIE-trained tutors in Bishan.</p>
         <div class="hero-buttons">
           <a href="#contact" class="btn-indigo">Book Free Trial</a>
           <a href="#programmes" class="btn-light">View Programmes</a>
@@ -99,89 +168,294 @@
     </div>
   </section>
 
-  <div class="stats-bar">
-    <div class="stat"><div class="stat-number">500+</div><div class="stat-label">Students</div></div>
-    <div class="stat"><div class="stat-number">12</div><div class="stat-label">Years Running</div></div>
-    <div class="stat"><div class="stat-number">95%</div><div class="stat-label">Pass Rate</div></div>
-    <div class="stat"><div class="stat-number">4.9★</div><div class="stat-label">Google Rating</div></div>
+  <div class="stats-bar" id="statsBar">
+    <div class="stat"><div class="stat-number" data-target="500" data-suffix="+">0</div><div class="stat-label">Students</div></div>
+    <div class="stat"><div class="stat-number" data-target="12" data-suffix="">0</div><div class="stat-label">Years Running</div></div>
+    <div class="stat"><div class="stat-number" data-target="95" data-suffix="%">0</div><div class="stat-label">Pass Rate</div></div>
+    <div class="stat"><div class="stat-number" data-target="4.9" data-suffix="&#9733;" data-decimal="1">0</div><div class="stat-label">Google Rating</div></div>
   </div>
 
   <section class="section programmes" id="programmes">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">Our Programmes</span>
       <h2>Structured Learning for Every Level</h2>
     </div>
     <div class="programmes-grid">
-      <div class="programme-card">
-        <div class="programme-level">Primary 3–6</div>
+      <div class="programme-card reveal">
+        <div class="programme-level">Primary 3-6</div>
         <h3>PSLE Preparation</h3>
-        <p>English, Math & Science. Foundation and Standard tracks. Intensive exam prep with practice papers and techniques.</p>
+        <p>English, Math &amp; Science. Foundation and Standard tracks. Intensive exam prep with practice papers and techniques.</p>
         <div class="programme-price">$280 <span>/month</span></div>
       </div>
-      <div class="programme-card">
-        <div class="programme-level">Secondary 1–4</div>
+      <div class="programme-card popular reveal">
+        <div class="popular-badge">Most Popular</div>
+        <div class="programme-level">Secondary 1-4</div>
         <h3>O-Level Programme</h3>
-        <p>A-Math, E-Math, Physics, Chemistry & English. Topical mastery with past-year paper drilling and exam strategies.</p>
+        <p>A-Math, E-Math, Physics, Chemistry &amp; English. Topical mastery with past-year paper drilling and exam strategies.</p>
         <div class="programme-price">$360 <span>/month</span></div>
       </div>
-      <div class="programme-card">
-        <div class="programme-level">JC 1–2</div>
+      <div class="programme-card reveal">
+        <div class="programme-level">JC 1-2</div>
         <h3>A-Level Programme</h3>
-        <p>H2 Math, Physics & Chemistry. Concept-driven teaching with university-style problem solving approaches.</p>
+        <p>H2 Math, Physics &amp; Chemistry. Concept-driven teaching with university-style problem solving approaches.</p>
         <div class="programme-price">$440 <span>/month</span></div>
       </div>
     </div>
   </section>
 
   <section class="section results" id="results">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">2024 Results</span>
       <h2>Our Students' Achievements</h2>
     </div>
     <div class="results-grid">
-      <div class="result-card"><div class="result-number">92%</div><div class="result-label">scored A/A* for PSLE Math</div></div>
-      <div class="result-card"><div class="result-number">88%</div><div class="result-label">improved by 2+ grades</div></div>
-      <div class="result-card"><div class="result-number">45</div><div class="result-label">students scored Distinction</div></div>
-      <div class="result-card"><div class="result-number">100%</div><div class="result-label">O-Level pass rate</div></div>
+      <div class="result-card reveal">
+        <div class="result-number" data-target="92" data-suffix="%">0</div>
+        <div class="result-label">scored A/A* for PSLE Math</div>
+        <div class="result-bar-wrap"><div class="result-bar" data-width="92"></div></div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-number" data-target="88" data-suffix="%">0</div>
+        <div class="result-label">improved by 2+ grades</div>
+        <div class="result-bar-wrap"><div class="result-bar" data-width="88"></div></div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-number" data-target="45" data-suffix="">0</div>
+        <div class="result-label">students scored Distinction</div>
+        <div class="result-bar-wrap"><div class="result-bar" data-width="45"></div></div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-number" data-target="100" data-suffix="%">0</div>
+        <div class="result-label">O-Level pass rate</div>
+        <div class="result-bar-wrap"><div class="result-bar" data-width="100"></div></div>
+      </div>
     </div>
   </section>
 
   <section class="section testimonials" id="testimonials">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">Parent Reviews</span>
       <h2>What Parents Are Saying</h2>
     </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p>"My son went from C5 to A2 in just 6 months. The teachers here really know how to break down complex topics. Highly recommended!"</p>
-        <div class="testimonial-author">Mrs. Lim</div>
-        <div class="testimonial-detail">Parent of Sec 4 student</div>
+    <div class="carousel" id="carousel">
+      <div class="carousel-slide active">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"My son went from C5 to A2 in just 6 months. The teachers here really know how to break down complex topics. Highly recommended!"</p>
+          <div class="testimonial-author">Mrs. Lim</div>
+          <div class="testimonial-detail">Parent of Sec 4 student</div>
+        </div>
       </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p>"Apex has been fantastic for my daughter's PSLE prep. She's more confident now and actually enjoys Math. The small class size makes a difference."</p>
-        <div class="testimonial-author">Mr. Tan</div>
-        <div class="testimonial-detail">Parent of P6 student</div>
+      <div class="carousel-slide">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Apex has been fantastic for my daughter's PSLE prep. She's more confident now and actually enjoys Math. The small class size makes a difference."</p>
+          <div class="testimonial-author">Mr. Tan</div>
+          <div class="testimonial-detail">Parent of P6 student</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"The A-Level H2 Math programme is rigorous and well-structured. My daughter's grades improved significantly within one term. Worth every cent."</p>
+          <div class="testimonial-author">Mrs. Chen</div>
+          <div class="testimonial-detail">Parent of JC2 student</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Very patient tutors who go the extra mile. They even provide extra consultations before exams. My son looks forward to his lessons every week."</p>
+          <div class="testimonial-author">Mr. Raj</div>
+          <div class="testimonial-detail">Parent of Sec 2 student</div>
+        </div>
       </div>
     </div>
+    <div class="carousel-dots" id="carouselDots"></div>
   </section>
 
   <section class="section contact" id="contact">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="section-tag">Get Started</span>
       <h2>Book a Free Trial Lesson</h2>
     </div>
-    <p>Come see why 500+ families trust Apex Learning. First lesson is on us — no obligations.</p>
-    <a href="#" class="btn-indigo">WhatsApp Us</a>
-    <div class="contact-details">
-      <span>📞 8123 4567</span>
-      <span>📍 Blk 283 Bishan St 22, #01-185</span>
-      <span>📧 hello@apexlearning.sg</span>
+    <p class="reveal">Come see why 500+ families trust Apex Learning. First lesson is on us — no obligations.</p>
+    <a href="#" class="btn-indigo reveal">WhatsApp Us</a>
+    <div class="contact-details reveal">
+      <span>&#128222; 8123 4567</span>
+      <span>&#128205; Blk 283 Bishan St 22, #01-185</span>
+      <span>&#128231; hello@apexlearning.sg</span>
     </div>
   </section>
 
-  <footer class="footer">© 2025 Apex Learning Centre. All rights reserved.</footer>
+  <footer class="footer">&copy; 2025 Apex Learning Centre. All rights reserved.</footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      /* ── Hero load sequence ── */
+      setTimeout(function() { document.body.classList.add('hero-loaded'); }, 200);
+
+      /* ── Mobile hamburger ── */
+      var hamburger = document.getElementById('hamburger');
+      var navLinks = document.getElementById('navLinks');
+      hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('open');
+        navLinks.classList.toggle('open');
+      });
+
+      /* ── Smart navbar ── */
+      var nav = document.getElementById('navbar');
+      var lastScrollY = 0;
+      var ticking = false;
+
+      function onScroll() {
+        var currentY = window.pageYOffset;
+
+        // Scrolled state
+        if (currentY > 50) { nav.classList.add('scrolled'); }
+        else { nav.classList.remove('scrolled'); }
+
+        // Hide on scroll down, show on scroll up
+        if (currentY > lastScrollY && currentY > 100) { nav.classList.add('hidden'); }
+        else { nav.classList.remove('hidden'); }
+
+        lastScrollY = currentY;
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+      });
+
+      /* ── Active nav link highlighting ── */
+      var sections = document.querySelectorAll('section[id]');
+      var navAnchors = document.querySelectorAll('.nav-links a');
+
+      function updateActiveLink() {
+        var scrollPos = window.pageYOffset + 120;
+        sections.forEach(function(sec) {
+          var top = sec.offsetTop;
+          var bottom = top + sec.offsetHeight;
+          var id = sec.getAttribute('id');
+          navAnchors.forEach(function(a) {
+            if (a.getAttribute('href') === '#' + id) {
+              if (scrollPos >= top && scrollPos < bottom) { a.classList.add('active'); }
+              else { a.classList.remove('active'); }
+            }
+          });
+        });
+      }
+
+      window.addEventListener('scroll', function() { requestAnimationFrame(updateActiveLink); });
+
+      /* ── Scroll reveal with Intersection Observer ── */
+      var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // Stagger grid siblings
+            var parent = entry.target.parentElement;
+            if (parent && (parent.classList.contains('programmes-grid') || parent.classList.contains('results-grid'))) {
+              var siblings = Array.prototype.slice.call(parent.querySelectorAll('.reveal, .reveal-left, .reveal-right'));
+              var idx = siblings.indexOf(entry.target);
+              entry.target.style.transitionDelay = (idx * 0.12) + 's';
+            }
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealEls.forEach(function(el) { revealObserver.observe(el); });
+
+      /* ── Animated number counters (easeOutQuart) ── */
+      function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+      function animateCounter(el) {
+        var target = parseFloat(el.getAttribute('data-target'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var decimals = parseInt(el.getAttribute('data-decimal') || '0', 10);
+        var duration = 2000;
+        var start = null;
+
+        function step(ts) {
+          if (!start) start = ts;
+          var progress = Math.min((ts - start) / duration, 1);
+          var val = easeOutQuart(progress) * target;
+          el.textContent = (decimals > 0 ? val.toFixed(decimals) : Math.floor(val)) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      var counterEls = document.querySelectorAll('[data-target]');
+      var counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      counterEls.forEach(function(el) { counterObserver.observe(el); });
+
+      /* ── Animated result bars ── */
+      var barEls = document.querySelectorAll('.result-bar');
+      var barObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var w = entry.target.getAttribute('data-width');
+            entry.target.style.width = w + '%';
+            barObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      barEls.forEach(function(el) { barObserver.observe(el); });
+
+      /* ── Testimonial carousel ── */
+      var slides = document.querySelectorAll('.carousel-slide');
+      var dotsContainer = document.getElementById('carouselDots');
+      var current = 0;
+      var autoInterval;
+
+      // Create dots
+      slides.forEach(function(_, i) {
+        var dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', function() { goTo(i); });
+        dotsContainer.appendChild(dot);
+      });
+
+      var dots = document.querySelectorAll('.carousel-dot');
+
+      function goTo(idx) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = idx;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+
+      function next() { goTo((current + 1) % slides.length); }
+
+      function startAuto() { autoInterval = setInterval(next, 4000); }
+      function stopAuto() { clearInterval(autoInterval); }
+
+      startAuto();
+
+      var carousel = document.getElementById('carousel');
+      carousel.addEventListener('mouseenter', stopAuto);
+      carousel.addEventListener('mouseleave', startAuto);
+
+    })();
+  </script>
 
 </body>
 </html>
