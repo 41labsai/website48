@@ -1,0 +1,132 @@
+# Website48 - Complete Service Documentation
+
+## Company Overview
+
+Website48 is a Singapore-based web design service that creates professional websites for small and medium businesses at an affordable fixed price of $489 SGD. The core promise is delivery within 48 hours.
+
+Unlike traditional agencies that charge $3,000-$15,000 and take weeks or months, Website48 offers agency-quality websites at a fraction of the cost with rapid turnaround.
+
+## Service Details
+
+### The Launch Package - $489 SGD
+
+This is the main offering. It includes:
+
+**Design & Development:**
+- Custom website design (not a template)
+- Up to 5 pages (Home, About, Services, Contact, etc.)
+- Mobile-responsive design that works on all devices
+- Fast-loading, optimized performance
+- Modern, professional aesthetic
+
+**Technical Setup:**
+- Domain setup assistance (customer purchases domain separately)
+- 12 months of web hosting included
+- SSL certificate (HTTPS security)
+- SEO-ready structure with proper meta tags
+
+**Functionality:**
+- Contact form with email notifications
+- Google Maps integration
+- Social media links
+- WhatsApp click-to-chat button (optional)
+
+**Support:**
+- 30 days of post-launch support
+- WhatsApp-based communication
+
+### Add-On Services (Optional)
+
+**Content & Changes:**
+- Single content/design change: $19
+- Unlimited changes forever: $148 (one-time)
+- Additional page beyond 5: $98/page
+
+**Branding:**
+- Custom logo design: $48
+
+**Advanced Features:**
+- Multilanguage support: $148/language
+- WhatsApp chat widget: $29
+- Blog/CMS integration: $148
+- AI-powered chatbot: $148
+- Multi-step lead qualification form: $248
+- Full SEO setup & Google indexing: $98
+
+**Ongoing:**
+- Hosting renewal after year 1: $29/month
+
+## Target Customers
+
+Website48 serves Singapore-based small businesses including:
+
+1. **Food & Beverage**: Restaurants, cafes, hawker stalls, catering services
+2. **Professional Services**: Real estate agents, lawyers, accountants, consultants
+3. **Healthcare**: Medical clinics, dental practices, TCM, physiotherapy
+4. **Education**: Tuition centres, enrichment classes, private tutors
+5. **Personal Brands**: Freelancers, photographers, artists, coaches
+6. **Home Services**: Renovation contractors, cleaning services, movers
+7. **Retail**: Small shops wanting an online presence
+
+## Competitive Positioning
+
+**vs DIY Builders (Wix, Squarespace):**
+- Same or lower cost when considering time investment
+- Professional result without learning curve
+- Done in 48 hours vs weeks of self-building
+
+**vs Freelancers ($500-$2,000):**
+- Faster delivery (48 hours vs 2-4 weeks)
+- Fixed price with no scope creep
+- Reliable quality standards
+
+**vs Agencies ($3,000-$15,000):**
+- 85-95% cost savings
+- Suitable for businesses that don't need enterprise features
+- Perfect for SMEs with limited budgets
+
+## Process
+
+1. Customer contacts via WhatsApp (+65 8012 4848)
+2. Brief consultation to understand requirements
+3. Customer provides: business info, logo, photos, content ideas
+4. Website48 designs and builds the site
+5. Customer reviews and provides feedback
+6. Final revisions and launch within 48 hours
+7. 30 days of support for any questions
+
+## Frequently Asked Questions
+
+**Q: Is $489 really the full price?**
+A: Yes. $489 covers design, development, and 12 months of hosting. The only separate cost is your domain name (typically $15-30/year, purchased by customer).
+
+**Q: What if I need changes after launch?**
+A: 30 days of support is included. After that, single changes are $19, or get unlimited changes forever for $148.
+
+**Q: Do I own my website?**
+A: Yes. You own all content and design. If you ever want to move to another host, we'll help with the transition.
+
+**Q: What industries do you work with?**
+A: Any legitimate Singapore business. Most common: F&B, real estate, healthcare, education, professional services.
+
+**Q: How do I get started?**
+A: WhatsApp us at +65 8012 4848 or visit https://website48.com
+
+## Contact Information
+
+- **WhatsApp**: +65 8012 4848
+- **WhatsApp Link**: https://wa.me/6580124848
+- **Website**: https://website48.com
+- **Pricing Page**: https://website48.com/pricing.html
+- **Blog**: https://website48.com/blog/
+
+## Schema.org Structured Data Reference
+
+The website uses the following schema types for search engines and AI:
+- ProfessionalService (main business)
+- Product/Offer (pricing page)
+- FAQPage (main page FAQ section)
+- BlogPosting (blog articles)
+
+## Last Updated
+February 2026

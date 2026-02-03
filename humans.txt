@@ -1,0 +1,16 @@
+/* TEAM */
+Company: Website48
+Contact: alexander@altivra.co
+WhatsApp: +65 8012 4848
+Location: Singapore
+
+/* SITE */
+Last update: 2026-02-03
+Language: English
+Standards: HTML5, CSS3, Vanilla JavaScript
+Software: Built with Claude Code
+
+/* THANKS */
+Fonts: Inter by Rasmus Andersson (Google Fonts)
+Hosting: Cloudflare Pages
+Icons: Custom SVG
