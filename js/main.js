@@ -338,7 +338,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================================================
-  // 8. PARALLAX HERO GLOWS
+  // 8. WHATSAPP + PHONE CLICK TRACKING
+  // =========================================================================
+  document.querySelectorAll('a[href^="https://wa.me"], a[href^="https://api.whatsapp.com"]').forEach((el) => {
+    el.addEventListener("click", () => {
+      if (typeof gtag !== 'undefined') gtag('event', 'whatsapp_click', { event_category: 'engagement', event_label: el.closest('section')?.id || 'unknown' });
+      if (typeof fbq !== 'undefined') fbq('track', 'Contact');
+    });
+  });
+
+  document.querySelectorAll('a[href^="tel:"]').forEach((el) => {
+    el.addEventListener("click", () => {
+      if (typeof gtag !== 'undefined') gtag('event', 'phone_click', { event_category: 'engagement', event_label: el.getAttribute('href') });
+    });
+  });
+
+  // =========================================================================
+  // 9. PARALLAX HERO GLOWS
   // =========================================================================
   const heroSection = document.querySelector(".hero");
   const glow1 = document.querySelector(".hero-glow--1");
