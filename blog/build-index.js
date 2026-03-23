@@ -1,4 +1,107 @@
-<!DOCTYPE html>
+#!/usr/bin/env node
+/**
+ * Blog Index Generator for Website48
+ *
+ * Scans all .html article files in the blog/ folder,
+ * extracts metadata from <meta> tags and <title>,
+ * and regenerates index.html with all articles sorted newest-first.
+ *
+ * Usage: node blog/build-index.js
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const BLOG_DIR = __dirname;
+const INDEX_FILE = path.join(BLOG_DIR, 'index.html');
+
+function extractMeta(html, property) {
+  // Match content="..." using double quotes only (avoids apostrophe issues in content)
+  const propMatch = html.match(new RegExp(`<meta\\s+property="${property}"\\s+content="([^"]+)"`, 'i'));
+  if (propMatch) return propMatch[1];
+  const nameMatch = html.match(new RegExp(`<meta\\s+name="${property}"\\s+content="([^"]+)"`, 'i'));
+  if (nameMatch) return nameMatch[1];
+  const revMatch = html.match(new RegExp(`<meta\\s+content="([^"]+)"\\s+property="${property}"`, 'i'));
+  if (revMatch) return revMatch[1];
+  return null;
+}
+
+function extractTitle(html) {
+  const match = html.match(/<title>([^<]+)<\/title>/i);
+  if (!match) return null;
+  // Strip " | Website48" suffix
+  return match[1].replace(/\s*\|\s*Website48$/i, '').trim();
+}
+
+function extractSchemaDate(html) {
+  const match = html.match(/"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})"/);
+  return match ? match[1] : null;
+}
+
+function extractTag(html) {
+  // Look for the article-tag div in the article's own "related articles" or hero section
+  const match = html.match(/<div class="article-tag">([^<]+)<\/div>/);
+  return match ? match[1].trim() : 'Article';
+}
+
+function extractReadTime(html) {
+  const match = html.match(/(\d+)\s*min\s*read/i);
+  return match ? `${match[1]} min read` : '5 min read';
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Mar 2026';
+  const d = new Date(dateStr + 'T00:00:00');
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function escapeHtml(str) {
+  // First decode any existing HTML entities, then re-encode
+  const decoded = str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  return decoded.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Scan for article files
+const files = fs.readdirSync(BLOG_DIR)
+  .filter(f => f.endsWith('.html') && f !== 'index.html')
+  .sort();
+
+const articles = [];
+
+for (const file of files) {
+  const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf8');
+  const title = extractTitle(html) || file.replace('.html', '').replace(/-/g, ' ');
+  const description = extractMeta(html, 'description') || extractMeta(html, 'og:description') || '';
+  const date = extractSchemaDate(html);
+  const tag = extractTag(html);
+  const readTime = extractReadTime(html);
+
+  articles.push({ file, title, description, date, tag, readTime });
+}
+
+// Sort newest first (by date, then alphabetically)
+articles.sort((a, b) => {
+  if (a.date && b.date) return b.date.localeCompare(a.date);
+  if (a.date) return -1;
+  if (b.date) return 1;
+  return a.title.localeCompare(b.title);
+});
+
+// Generate article cards HTML
+const cardsHtml = articles.map(a => `
+        <article class="article-card">
+          <div class="article-tag">${escapeHtml(a.tag)}</div>
+          <h2 class="article-title"><a href="${a.file}">${escapeHtml(a.title)}</a></h2>
+          <p class="article-excerpt">${escapeHtml(a.description)}</p>
+          <div class="article-meta">
+            <span>${a.readTime}</span>
+            <span>${formatDate(a.date)}</span>
+          </div>
+        </article>`).join('\n');
+
+// Build full index.html
+const indexHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -126,113 +229,19 @@
   <section class="articles">
     <div class="container">
       <div class="articles-grid">
-
-        <article class="article-card">
-          <div class="article-tag">Healthcare Websites</div>
-          <h2 class="article-title"><a href="clinic-website-design-singapore.html">Website Design for Clinics and Medical Practices in Singapore (2026)</a></h2>
-          <p class="article-excerpt">What should a medical clinic website in Singapore include? From MOH compliance to appointment booking — a practical guide for clinic owners and practice managers.</p>
-          <div class="article-meta">
-            <span>6 min read</span>
-            <span>Mar 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Local SEO Guide</div>
-          <h2 class="article-title"><a href="get-business-on-google-singapore.html">How to Get Your Singapore Business on Google in 2026 (Free Guide)</a></h2>
-          <p class="article-excerpt">Step-by-step guide to getting your Singapore business found on Google Search and Google Maps. Free strategies for local SEO that actually work in 2026.</p>
-          <div class="article-meta">
-            <span>7 min read</span>
-            <span>Mar 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Agency Guide</div>
-          <h2 class="article-title"><a href="how-to-choose-web-design-agency-singapore.html">How to Choose a Web Design Agency in Singapore (Without Getting Burned)</a></h2>
-          <p class="article-excerpt">What to look for — and what to avoid — when hiring a web design agency in Singapore. A practical guide for SME owners from people who've seen the horror stories.</p>
-          <div class="article-meta">
-            <span>6 min read</span>
-            <span>Mar 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Real Estate</div>
-          <h2 class="article-title"><a href="real-estate-agent-website-singapore.html">Why Singapore Real Estate Agents Need Their Own Website in 2026</a></h2>
-          <p class="article-excerpt">PropertyGuru and 99.co aren't enough. Here's why Singapore real estate agents need a personal website — and what it should include to win more listings and buyers.</p>
-          <div class="article-meta">
-            <span>5 min read</span>
-            <span>Mar 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">F&amp;B Websites</div>
-          <h2 class="article-title"><a href="restaurant-website-design-singapore.html">Restaurant Website Design in Singapore: 7 Must-Have Features (2026)</a></h2>
-          <p class="article-excerpt">What makes a great restaurant website in Singapore? We cover the 7 features every F&amp;B business needs to attract diners and take more reservations.</p>
-          <div class="article-meta">
-            <span>5 min read</span>
-            <span>Mar 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Comparison Guide</div>
-          <h2 class="article-title"><a href="best-website-builder-singapore-sme.html">Best Website Builder for Singapore SMEs in 2026</a></h2>
-          <p class="article-excerpt">Comparing Wix vs Squarespace vs Shopify vs WordPress for Singapore SMEs. Find the best website builder for your business with our honest 2026 comparison guide.</p>
-          <div class="article-meta">
-            <span>6 min read</span>
-            <span>Feb 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Business Advice</div>
-          <h2 class="article-title"><a href="do-i-need-website-small-business.html">Do I Really Need a Website for My Small Business in Singapore?</a></h2>
-          <p class="article-excerpt">Wondering if your Singapore SME needs a website when you already have Instagram and Facebook? Here's the honest truth about website vs social media for local businesses.</p>
-          <div class="article-meta">
-            <span>5 min read</span>
-            <span>Feb 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Quick Start Guide</div>
-          <h2 class="article-title"><a href="get-business-online-48-hours.html">How to Get Your Singapore Business Online in 48 Hours</a></h2>
-          <p class="article-excerpt">A step-by-step guide to launch your website fast in Singapore. From domain selection to going live in 48 hours. Practical checklist included.</p>
-          <div class="article-meta">
-            <span>4 min read</span>
-            <span>Feb 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Pricing Guide</div>
-          <h2 class="article-title"><a href="website-cost-singapore-2026.html">How Much Does a Website Cost in Singapore in 2026?</a></h2>
-          <p class="article-excerpt">Discover the real cost of building a website in Singapore in 2026. From DIY builders to agencies, learn about web design pricing and why $489 is all you need.</p>
-          <div class="article-meta">
-            <span>5 min read</span>
-            <span>Feb 2026</span>
-          </div>
-        </article>
-
-        <article class="article-card">
-          <div class="article-tag">Decision Guide</div>
-          <h2 class="article-title"><a href="website-design-vs-diy.html">Professional Website Design vs DIY: What's Right for Your Business?</a></h2>
-          <p class="article-excerpt">Should you build your website yourself or hire a web designer in Singapore? We compare DIY website builders vs professional design, including hidden costs, time investment, and when each option makes sense.</p>
-          <div class="article-meta">
-            <span>5 min read</span>
-            <span>Feb 2026</span>
-          </div>
-        </article>
+${cardsHtml}
       </div>
     </div>
   </section>
 
   <footer class="footer">
-    <p>&copy; 2026 Website48. All rights reserved. &middot; <a href="../index.html">Home</a> &middot; <a href="../pricing.html">Pricing</a></p>
+    <p>&copy; ${new Date().getFullYear()} Website48. All rights reserved. &middot; <a href="../index.html">Home</a> &middot; <a href="../pricing.html">Pricing</a></p>
   </footer>
 
 </body>
 </html>
+`;
+
+fs.writeFileSync(INDEX_FILE, indexHtml);
+console.log(`Blog index rebuilt with ${articles.length} articles:`);
+articles.forEach((a, i) => console.log(`  ${i + 1}. ${a.title} (${a.tag}, ${formatDate(a.date)})`));
